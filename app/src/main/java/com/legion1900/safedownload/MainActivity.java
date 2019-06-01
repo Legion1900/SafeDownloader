@@ -10,8 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.dropbox.core.DbxDownloader;
 import com.dropbox.core.DbxException;
@@ -25,7 +23,7 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String PATH_TO_FILE = "/home/Apps/MitDTargetAppServer/test.apk";
+    private static final String PATH_TO_FILE = "/test.apk";
     private static final File PATH_ON_DEVICE;
 
     static {
@@ -76,20 +74,16 @@ class DbxDownloadHelper implements Runnable {
 
     private static String TAG = "DbxDownloadHelper";
 
-    private DbxClientV2 mDbxClient;
     private DbxDownloader mDownloader;
-
-    private Activity mBoundActivity;
 
     private File mPathOnDevice;
     private String mPathOnDbx;
 
     private String mId;
 
-    public DbxDownloadHelper(File pathOnDevice, String pathOnDbx, String id, Activity boundActivity) {
+    DbxDownloadHelper(File pathOnDevice, String pathOnDbx, String id, Activity boundActivity) {
         mPathOnDevice = pathOnDevice;
         mPathOnDbx = pathOnDbx;
-        mBoundActivity = boundActivity;
         mId = id;
     }
 
@@ -115,7 +109,7 @@ class DbxDownloadHelper implements Runnable {
 
     private void initializeDbxApi(String id) {
         DbxRequestConfig config = DbxRequestConfig.newBuilder(id).build();
-        mDbxClient = new DbxClientV2(config, BuildConfig.MyAccessToken);
+        DbxClientV2 mDbxClient = new DbxClientV2(config, BuildConfig.MyAccessToken);
 
         try {
             mDownloader = mDbxClient.files().download(mPathOnDbx);
