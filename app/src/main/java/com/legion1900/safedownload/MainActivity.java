@@ -1,10 +1,17 @@
 package com.legion1900.safedownload;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.dropbox.core.DbxDownloader;
 import com.dropbox.core.DbxException;
@@ -18,27 +25,50 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private String pathToFile = "/Apps/MitD Target App Server/test.apk";
+    private static final String PATH_TO_FILE = "/home/Apps/MitDTargetAppServer/test.apk";
+    private static final File PATH_ON_DEVICE;
 
-    private Button mButtonDownload;
+    static {
+        String tmp = Environment
+                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                + "/"
+                + "test.apk";
+        PATH_ON_DEVICE = new File(tmp);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
 
-//        String id = "";
-//        try {
-//            id = getString(getApplicationInfo().labelRes)
-//                    + "/"
-//                    + getPackageManager()
-//                    .getPackageInfo(getPackageName(), 0);
-//        }
-//        catch (PackageManager.NameNotFoundException e) {
-//            Log.e(TAG, "Error while initializing DbxClient", e);
-//        }
+    public void onButtonDownloadClick(View parent) {
+        askPermission();
 
-        mButtonDownload = findViewById(R.id.button_download);
+        String id = "";
+        try {
+            id = getString(getApplicationInfo().labelRes)
+                    + "/"
+                    + getPackageManager()
+                    .getPackageInfo(getPackageName(), 0);
+        }
+        catch (PackageManager.NameNotFoundException e) {
+            Log.e("MainActivity", "Error while building ID", e);
+        }
+
+        Thread thred = new Thread(
+                new DbxDownloadHelper(PATH_ON_DEVICE, PATH_TO_FILE, id, this)
+        );
+        thred.start();
+    }
+
+    private void askPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    42);
+        }
     }
 }
 
@@ -48,20 +78,25 @@ class DbxDownloadHelper implements Runnable {
 
     private DbxClientV2 mDbxClient;
     private DbxDownloader mDownloader;
-    // mId - id for DbxDownloader initialization
+
+    private Activity mBoundActivity;
 
     private File mPathOnDevice;
     private String mPathOnDbx;
 
-    public DbxDownloadHelper(File pathOnDevice, String pathOnDbx, String id) {
+    private String mId;
+
+    public DbxDownloadHelper(File pathOnDevice, String pathOnDbx, String id, Activity boundActivity) {
         mPathOnDevice = pathOnDevice;
         mPathOnDbx = pathOnDbx;
-
-        initializeDbxApi(id);
+        mBoundActivity = boundActivity;
+        mId = id;
     }
 
     @Override
     public void run() {
+        initializeDbxApi(mId);
+
         FileOutputStream fout = null;
         try {
             fout = new FileOutputStream(mPathOnDevice);
