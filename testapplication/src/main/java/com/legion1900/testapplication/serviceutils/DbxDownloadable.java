@@ -1,5 +1,6 @@
 package com.legion1900.testapplication.serviceutils;
 
+import android.os.Parcel;
 import android.util.Log;
 
 import com.dropbox.core.DbxDownloader;
@@ -17,6 +18,19 @@ import java.io.IOException;
 
 public class DbxDownloadable extends Downloadable {
 
+    public static final Creator<DbxDownloadable> CREATOR
+            = new Creator<DbxDownloadable>() {
+        @Override
+        public DbxDownloadable createFromParcel(Parcel source) {
+            return new DbxDownloadable(source);
+        }
+
+        @Override
+        public DbxDownloadable[] newArray(int size) {
+            return new DbxDownloadable[size];
+        }
+    };
+
     private static final String TAG = "DbxDownloadHelper";
 
     private DbxDownloader downloader;
@@ -29,6 +43,10 @@ public class DbxDownloadable extends Downloadable {
 
         this.id = id;
         this.pathOnDbx = pathOnDbx;
+    }
+
+    public DbxDownloadable(Parcel in) {
+        super(in);
     }
 
     @Override

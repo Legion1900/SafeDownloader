@@ -14,8 +14,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.legion1900.service_lib.Downloadable;
-import com.legion1900.service_lib.Messages;
+import com.legion1900.safeservicelib.Downloadable;
+import com.legion1900.safeservicelib.Messages;
 import com.legion1900.testapplication.serviceutils.DbxDownloadable;
 
 public class MainActivity extends AppCompatActivity {
