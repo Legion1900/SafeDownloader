@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
-            android:name=".SafeDownloaderService"
+            android:name="com.legion1900.safeservicelib.SafeDownloaderService"
             android:exported="true"/>
     </application>
 </manifest>

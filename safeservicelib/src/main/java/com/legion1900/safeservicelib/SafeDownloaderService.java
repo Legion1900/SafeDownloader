@@ -1,4 +1,4 @@
-package com.legion1900.service;
+package com.legion1900.safeservicelib;
 
 import android.app.Service;
 import android.content.Context;

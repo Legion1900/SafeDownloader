@@ -38,7 +38,7 @@ public class DbxDownloadable extends Downloadable {
 
     private String pathOnDbx;
 
-    public DbxDownloadable(Downloadable.ArgsContainer container, String id, String pathOnDbx) {
+    public DbxDownloadable(ArgsContainer container, String id, String pathOnDbx) {
         super(container);
 
         this.id = id;
