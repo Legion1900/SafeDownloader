@@ -4,17 +4,23 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import com.legion1900.service_lib.Downloadable;
 import com.legion1900.service_lib.Messages;
+import com.legion1900.testapplication.serviceutils.DbxDownloadable;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String PATH_ON_DBX = "/test.apk";
 
     private Messenger mService = null;
 
@@ -35,7 +41,12 @@ public class MainActivity extends AppCompatActivity {
     };
 
     public void download(View view) {
-        Message message = Message.obtain(null, Messages.MSG_HELLO_WORLD, 0, 0);
+        Message message = Message.obtain(null, Messages.MSG_START_DWNLD, 0, 0);
+        message.obj = new DbxDownloadable(
+                new Downloadable.ArgsContainer("test.apk", ""),
+                getId(),
+                PATH_ON_DBX
+        );
         try {
             mService.send(message);
         } catch (RemoteException e) {
@@ -67,5 +78,19 @@ public class MainActivity extends AppCompatActivity {
             unbindService(mConnection);
             mIsBound = false;
         }
+    }
+
+    private String getId() {
+        String id = "";
+        try {
+            id = getString(getApplicationInfo().labelRes)
+                    + "/"
+                    + getPackageManager()
+                    .getPackageInfo(getPackageName(), 0);
+        }
+        catch (PackageManager.NameNotFoundException e) {
+            Log.e("MainActivity", "Error while building ID", e);
+        }
+        return id;
     }
 }

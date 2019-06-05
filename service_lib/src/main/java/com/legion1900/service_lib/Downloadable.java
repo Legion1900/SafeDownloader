@@ -16,7 +16,7 @@ public abstract class Downloadable {
     /*
     * whereTo - where file should be downloaded.
     * */
-    public abstract void download(File whereTo);
+    public abstract void download(File pathOnDevice);
 
     public static final class ArgsContainer {
 
