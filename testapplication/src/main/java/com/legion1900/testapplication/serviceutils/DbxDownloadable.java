@@ -7,7 +7,7 @@ import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.DownloadErrorException;
-import com.legion1900.service_lib.Downloadable;
+import com.legion1900.safeservicelib.Downloadable;
 import com.legion1900.testapplication.BuildConfig;
 
 import java.io.File;
@@ -24,7 +24,7 @@ public class DbxDownloadable extends Downloadable {
 
     private String pathOnDbx;
 
-    public DbxDownloadable(ArgsContainer container, String id, String pathOnDbx) {
+    public DbxDownloadable(Downloadable.ArgsContainer container, String id, String pathOnDbx) {
         super(container);
 
         this.id = id;

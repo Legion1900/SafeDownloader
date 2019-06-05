@@ -8,10 +8,9 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.legion1900.service_lib.Downloadable;
-import com.legion1900.service_lib.Messages;
+import com.legion1900.safeservicelib.Downloadable;
+import com.legion1900.safeservicelib.Messages;
 
 import java.io.File;
 import java.io.IOException;

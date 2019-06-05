@@ -1,4 +1,4 @@
-package com.legion1900.service_lib;
+package com.legion1900.safeservicelib;
 
 import java.io.File;
 

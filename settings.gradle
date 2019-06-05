@@ -1,1 +1,1 @@
-include ':app', ':service', ':testactivity', ':servicelib', ':testapplication', ':service_lib'
+include ':app', ':service', ':testactivity', ':servicelib', ':testapplication', ':service_lib', ':safeservicelib'

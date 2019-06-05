@@ -1,4 +1,4 @@
-package com.legion1900.service_lib;
+package com.legion1900.safeservicelib;
 
 public final class Messages {
 
