@@ -19,6 +19,15 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "AppKey", MitDTargetApp_DropBoxAppKey
+            buildConfigField 'String', "AppSecret", MitDTargetApp_DropBoxAppSecret
+            buildConfigField 'String',"MyAccessToken", MitDTargetApp_DropBoxMyAccessToken
+        }
+        debug {
+            buildConfigField 'String', "AppKey", MitDTargetApp_DropBoxAppKey
+            buildConfigField 'String', "AppSecret", MitDTargetApp_DropBoxAppSecret
+            buildConfigField 'String',"MyAccessToken", MitDTargetApp_DropBoxMyAccessToken
+            resValue 'string', "app_key", MitDTargetApp_DropBoxAppKey
         }
     }
 
@@ -33,4 +42,5 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation project(path: ':service_lib')
+    implementation 'com.dropbox.core:dropbox-core-sdk:3.1.0'
 }

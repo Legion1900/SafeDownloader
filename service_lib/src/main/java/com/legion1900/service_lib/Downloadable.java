@@ -11,7 +11,7 @@ public abstract class Downloadable {
     /*
      * Container for file name and checksum algorithm name
      * */
-    private ArgsContainer args;
+    public final ArgsContainer args;
 
     /*
     * whereTo - where file should be downloaded.
