@@ -1,14 +1,32 @@
 package com.legion1900.service_lib;
 
-public interface Downloadable {
+import java.io.File;
+
+public abstract class Downloadable {
+
+    public Downloadable(ArgsContainer container) {
+        args = container;
+    }
+
+    /*
+     * Container for file name and checksum algorithm name
+     * */
+    private ArgsContainer args;
 
     /*
     * whereTo - where file should be downloaded.
     * */
-    void download(String whereTo);
+    public abstract void download(File whereTo);
 
-    /*
-    * Should return preferred checksum algorithm name
-    * */
-    String getChecksumAlgorithm();
+    public static final class ArgsContainer {
+
+        public final String fileName;
+
+        public final String checksumAlg;
+
+        public ArgsContainer(String fileName, String checksumAlg) {
+            this.fileName = fileName;
+            this.checksumAlg = checksumAlg;
+        }
+    }
 }
