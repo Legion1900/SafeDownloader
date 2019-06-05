@@ -1,14 +1,14 @@
 package com.legion1900.service_lib;
 
-public abstract class ArgumentContainer {
+public interface Downloadable {
 
     /*
     * whereTo - where file should be downloaded.
     * */
-    public abstract void download(String whereTo);
+    void download(String whereTo);
 
     /*
     * Should return preferred checksum algorithm name
     * */
-    public abstract String getChecksumAlgorithm();
+    String getChecksumAlgorithm();
 }

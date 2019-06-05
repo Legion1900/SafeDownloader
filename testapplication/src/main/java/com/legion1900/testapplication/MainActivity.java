@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.legion1900.service_lib.Messages;
+
 public class MainActivity extends AppCompatActivity {
 
     private Messenger mService = null;
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     public void download(View view) {
-        Message message = Message.obtain(null, 1, 0, 0);
+        Message message = Message.obtain(null, Messages.MSG_HELLO_WORLD, 0, 0);
         try {
             mService.send(message);
         } catch (RemoteException e) {
