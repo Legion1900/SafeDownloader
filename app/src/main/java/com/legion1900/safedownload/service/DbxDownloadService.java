@@ -1,4 +1,4 @@
-package com.legion1900.safedownload;
+package com.legion1900.safedownload.service;
 
 import android.util.Log;
 import android.widget.Toast;
@@ -8,6 +8,7 @@ import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
 import com.legion1900.baseservicelib.service.SafeDownloaderService;
+import com.legion1900.safedownload.BuildConfig;
 
 import java.io.File;
 import java.io.FileNotFoundException;
