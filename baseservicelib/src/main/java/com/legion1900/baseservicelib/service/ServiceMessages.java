@@ -1,4 +1,4 @@
-package com.legion1900.safedownload.service;
+package com.legion1900.baseservicelib.service;
 
 /*
  * Message codes

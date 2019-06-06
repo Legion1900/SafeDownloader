@@ -1,10 +1,9 @@
-package com.legion1900.safedownload.service;
+package com.legion1900.baseservicelib.service;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.File;
 

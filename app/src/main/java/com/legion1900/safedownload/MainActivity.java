@@ -12,8 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.legion1900.safedownload.service.SafeDownloaderService;
-import com.legion1900.safedownload.service.ServiceMessages;
+import com.legion1900.baseservicelib.service.SafeDownloaderService;
+import com.legion1900.baseservicelib.service.ServiceMessages;
 
 public class MainActivity extends AppCompatActivity {
 
