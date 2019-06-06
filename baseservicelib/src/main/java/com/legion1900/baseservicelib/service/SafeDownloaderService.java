@@ -10,7 +10,7 @@ import java.io.File;
 public abstract class SafeDownloaderService extends Service {
 
     public static final String BUNDLE_KEY_FILENAME = "fileName";
-    public static final String BUNDLE_KEY_CKSM = "checksumAlg";
+    public static final String BUNDLE_KEY_HASH = "md5";
     public static final String BUNDLE_KEY_DWNLD_FROM = "downloadFrom";
 
     private Messenger mMessenger;

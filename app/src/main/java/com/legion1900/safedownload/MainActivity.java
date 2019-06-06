@@ -20,6 +20,8 @@ import com.legion1900.safedownload.service.ResponseHandler;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final static String MOC_HASH = "00e1f0cb8aaf13c5fe189400182fc82b";
+
     private static final String TAG_ERROR_SERVICE_CONNECTION = "ServiceConnection";
 
     private static final String PATH_TO_FILE = "/test.apk";
@@ -51,6 +53,21 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    public void onButtonDownloadClick(View parent) {
+        if (!bound) return;
+        Message msg = Message.obtain(null, ServiceMessages.MSG_DOWNLOAD, 0, 0);
+        Bundle args = new Bundle();
+        args.putString(SafeDownloaderService.BUNDLE_KEY_DWNLD_FROM, PATH_TO_FILE);
+        args.putString(SafeDownloaderService.BUNDLE_KEY_FILENAME, "test.apk");
+        args.putString(SafeDownloaderService.BUNDLE_KEY_HASH, MOC_HASH);
+        msg.obj = args;
+        try {
+            mService.send(msg);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,20 +87,6 @@ public class MainActivity extends AppCompatActivity {
         if (bound) {
             unbindService(mConnection);
             bound = false;
-        }
-    }
-
-    public void onButtonDownloadClick(View parent) {
-        if (!bound) return;
-        Message msg = Message.obtain(null, ServiceMessages.MSG_DOWNLOAD, 0, 0);
-        Bundle args = new Bundle();
-        args.putString(SafeDownloaderService.BUNDLE_KEY_DWNLD_FROM, PATH_TO_FILE);
-        args.putString(SafeDownloaderService.BUNDLE_KEY_FILENAME, "test.apk");
-        msg.obj = args;
-        try {
-            mService.send(msg);
-        } catch (RemoteException e) {
-            e.printStackTrace();
         }
     }
 }
