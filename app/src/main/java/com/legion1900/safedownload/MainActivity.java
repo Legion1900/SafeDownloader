@@ -23,6 +23,7 @@ import com.dropbox.core.DbxDownloader;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
+import com.legion1900.safedownload.service.SafeDownloaderService;
 
 import java.io.File;
 import java.io.FileNotFoundException;

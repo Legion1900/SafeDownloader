@@ -19,7 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".SafeDownloaderService"/>
+        <service android:name=".service.SafeDownloaderService"/>
     </application>
 
 </manifest>
