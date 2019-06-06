@@ -52,12 +52,6 @@ public class DbxDownloadService extends SafeDownloaderService {
         }
     }
 
-    @Override
-    protected void onDownloadFinished() {
-        File file = new File(getFilesDir() + "/test.apk");
-        Toast.makeText(this, file.length() + "", Toast.LENGTH_LONG).show();
-    }
-
     private void initializeDbxApi(String pathOnDbx) {
         String id = getApplicationContext().getPackageName();
         DbxRequestConfig config = DbxRequestConfig.newBuilder(id).build();

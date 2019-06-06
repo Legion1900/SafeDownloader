@@ -3,6 +3,8 @@ package com.legion1900.baseservicelib.service;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Messenger;
+import android.os.RemoteException;
 import android.util.Log;
 
 import java.io.File;
@@ -13,6 +15,7 @@ import java.io.File;
 class DownloadRequestHandler extends Handler {
 
     private static final String TAG_ERROR_CONTROLLER = "ExecutorController";
+    private static final String TAG_ERROR_RESPONDING = "DownloadRequestHandler";
 
     private Thread executor;
 
@@ -21,6 +24,8 @@ class DownloadRequestHandler extends Handler {
     // Reference to parent service.
     private SafeDownloaderService service;
 
+    private Messenger client;
+
     DownloadRequestHandler(SafeDownloaderService service) {
         this.service = service;
     }
@@ -28,6 +33,9 @@ class DownloadRequestHandler extends Handler {
     @Override
     public void handleMessage(Message msg) {
         switch (msg.what) {
+            case ServiceMessages.MSG_REGISTER_CLIENT:
+                client = msg.replyTo;
+                break;
             case ServiceMessages.MSG_DOWNLOAD:
                 startDownloadRoutine(msg);
                 // TODO add verification
@@ -38,6 +46,9 @@ class DownloadRequestHandler extends Handler {
     }
 
     private void startDownloadRoutine(Message msg) {
+        Message response = Message.obtain(null, ClientMessages.MSG_DWNLD_STARTED);
+        sendMessageToClient(response);
+
         if (msg.obj.getClass() == Bundle.class) {
             Bundle bundle = (Bundle)msg.obj;
             String fileName = bundle.getString(SafeDownloaderService.BUNDLE_KEY_FILENAME);
@@ -53,6 +64,15 @@ class DownloadRequestHandler extends Handler {
         }
         else {
             throw new IllegalArgumentException("File obj should be Bundle");
+        }
+    }
+
+    private void sendMessageToClient(Message msg) {
+        try {
+            client.send(msg);
+        }
+        catch (RemoteException e) {
+            Log.e(TAG_ERROR_RESPONDING, "Cannot respond to client", e);
         }
     }
 
@@ -78,7 +98,8 @@ class DownloadRequestHandler extends Handler {
         public void run() {
             try {
                 executor.join();
-                service.onDownloadFinished();
+                Message msg = Message.obtain(null, ClientMessages.MSG_DWNLD_FINISHED);
+                sendMessageToClient(msg);
             }
             catch (InterruptedException e) {
                 Log.e(TAG_ERROR_CONTROLLER, "Interrupter", e);

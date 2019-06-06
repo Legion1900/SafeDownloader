@@ -17,8 +17,6 @@ public abstract class SafeDownloaderService extends Service {
 
     abstract protected void download(File pathOnDevice, String downloadFrom);
 
-    abstract protected void onDownloadFinished();
-
     @Override
     public IBinder onBind(Intent intent) {
         mMessenger = new Messenger(new DownloadRequestHandler(this));

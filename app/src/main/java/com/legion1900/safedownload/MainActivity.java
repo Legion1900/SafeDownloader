@@ -10,25 +10,38 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.legion1900.baseservicelib.service.SafeDownloaderService;
 import com.legion1900.baseservicelib.service.ServiceMessages;
 import com.legion1900.safedownload.service.DbxDownloadService;
+import com.legion1900.safedownload.service.ResponseHandler;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG_ERROR_SERVICE_CONNECTION = "ServiceConnection";
 
     private static final String PATH_TO_FILE = "/test.apk";
 
     private Messenger mService = null;
-
     private boolean bound;
+    private final Messenger mClient = new Messenger(new ResponseHandler(this));
 
     private ServiceConnection mConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mService = new Messenger(service);
             bound = true;
+
+            Message msg = Message.obtain(null, ServiceMessages.MSG_REGISTER_CLIENT);
+            msg.replyTo = mClient;
+            try {
+                mService.send(msg);
+            }
+            catch (RemoteException e) {
+                Log.e(TAG_ERROR_SERVICE_CONNECTION, "Cannot send response to service", e);
+            }
         }
 
         @Override
