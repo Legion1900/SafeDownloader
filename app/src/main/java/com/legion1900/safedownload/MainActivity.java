@@ -10,7 +10,6 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.legion1900.safedownload.service.SafeDownloaderService;
