@@ -30,9 +30,8 @@ class DownloadRequestHandler extends Handler {
     public void handleMessage(Message msg) {
         switch (msg.what) {
             case ServiceMessages.MSG_DOWNLOAD:
-                Toast.makeText(service,
-                        service.getFilesDir().toString(),
-                        Toast.LENGTH_LONG).show();
+                startDownloadRoutine(msg);
+                // TODO add verification
                 break;
             default:
                 super.handleMessage(msg);
@@ -47,7 +46,8 @@ class DownloadRequestHandler extends Handler {
                     service.getFilesDir()
                             + "/"
                             + fileName);
-            executor = new Thread(new Executor(pathOnDevice));
+            String downloadFrom = bundle.getString(SafeDownloaderService.BUNDLE_KEY_DWNLD_FROM);
+            executor = new Thread(new Executor(pathOnDevice, downloadFrom));
             controller = new Thread(new ExecutorController());
             executor.start();
             controller.start();
@@ -61,13 +61,16 @@ class DownloadRequestHandler extends Handler {
 
         File pathOnDevice;
 
-        Executor(File pathOnDevice) {
+        String downloadFrom;
+
+        Executor(File pathOnDevice, String downloadFrom) {
             this.pathOnDevice = pathOnDevice;
+            this.downloadFrom = downloadFrom;
         }
 
         @Override
         public void run() {
-            service.download(pathOnDevice);
+            service.download(pathOnDevice, downloadFrom);
         }
     }
 

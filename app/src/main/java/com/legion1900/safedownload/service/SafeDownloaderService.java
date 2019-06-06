@@ -11,10 +11,11 @@ public abstract class SafeDownloaderService extends Service {
 
     public static final String BUNDLE_KEY_FILENAME = "fileName";
     public static final String BUNDLE_KEY_CKSM = "checksumAlg";
+    public static final String BUNDLE_KEY_DWNLD_FROM = "downloadFrom";
 
     private Messenger mMessenger;
 
-    abstract protected void download(File pathOnDevice);
+    abstract protected void download(File pathOnDevice, String downloadFrom);
 
     abstract protected void onDownloadFinished();
 
